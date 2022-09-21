@@ -2,6 +2,7 @@
     import Bracket from "./Bracket.svelte";
     import Channel from "./Channel.svelte";
 
+    export let controller;
     export let channels;
     export let matches;
     export let matchID;
@@ -13,8 +14,20 @@
     {#if orientation === "right"}
         <bracketLine class="right" />
         <channels>
-            <Channel {channels} {matchID} bind:matches selector={0} />
-            <Channel {channels} {matchID} bind:matches selector={1} />
+            <Channel
+                {controller}
+                {channels}
+                {matchID}
+                bind:matches
+                selector={0}
+            />
+            <Channel
+                {controller}
+                {channels}
+                {matchID}
+                bind:matches
+                selector={1}
+            />
         </channels>
         {#if !leaf}
             <lines>
@@ -30,14 +43,26 @@
             </lines>
         {/if}
         <channels>
-            <Channel {channels} {matchID} bind:matches selector={0} />
-            <Channel {channels} {matchID} bind:matches selector={1} />
+            <Channel
+                {controller}
+                {channels}
+                {matchID}
+                bind:matches
+                selector={0}
+            />
+            <Channel
+                {controller}
+                {channels}
+                {matchID}
+                bind:matches
+                selector={1}
+            />
         </channels>
         <bracketLine class="left" />
     {:else}
         <verticalLine />
-        <Channel {channels} {matchID} bind:matches selector={0} />
-        <Channel {channels} {matchID} bind:matches selector={1} />
+        <Channel {controller} {channels} {matchID} bind:matches selector={0} />
+        <Channel {controller} {channels} {matchID} bind:matches selector={1} />
         <verticalLine />
     {/if}
 </match>

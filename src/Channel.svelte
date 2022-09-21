@@ -1,4 +1,5 @@
 <script>
+    export let controller;
     export let channels;
     export let matchID;
     export let matches;
@@ -10,7 +11,7 @@
         if (matches[matchID][selector] === null) {
             channel = {
                 name: "TBD",
-                logo: "https://i3.ytimg.com/",
+                logo: "ytempty.png",
             };
         } else {
             if (channels[matches[matchID][selector]]) {
@@ -18,7 +19,7 @@
             } else {
                 channel = {
                     name: "BYE",
-                    logo: "https://i3.ytimg.com/",
+                    logo: "ytempty.png",
                 };
             }
         }
@@ -30,6 +31,13 @@
         if (matches[matchID][0] === null || matches[matchID][1] === null)
             return;
 
+        controller.reset(matchID);
+
+        if (selector === matches[matchID]["winner"]) {
+            matches[matchID]["winner"] = undefined;
+            return;
+        }
+
         matches[matchID]["winner"] = selector;
 
         if (matchID === 0) return;
@@ -38,6 +46,7 @@
         let parent = isFirstChild ? matchID - 1 : matchID - 2;
         parent = parent / 2;
         matches[parent][isFirstChild ? 0 : 1] = matches[matchID][selector];
+        matches[parent]["winner"] = undefined;
     }
 </script>
 

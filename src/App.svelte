@@ -1,74 +1,68 @@
 <script>
+	import { onMount } from "svelte";
 	import Match from "./Match.svelte";
 	import Bracket from "./Bracket.svelte";
 
-	let channelCount = 8;
-
-	let bracketLevels = Math.ceil(Math.log2(channelCount));
-
-	let channels = [
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-		{
-			name: "MrBeast",
-			logo: "https://yt3.ggpht.com/ytc/AMLnZu_NBXmT9J0H9uL94tZm6YxOGdMn0utqYJh1aQlv4A=s88-c-k-c0x00ffffff-no-rj",
-		},
-	];
-
-	fetch("./channels.json")
-		.then((res) => res.json())
-		.then((out) => {
-			channels = out["channels"];
-			console.log(channels);
-		})
-		.catch((err) => console.error(err));
-
-	// https://stackoverflow.com/a/45572051
-	var participants = Array.from({ length: channelCount }, (v, k) => k + 1);
-	let bracket = getBracket(participants);
-
-	let matches = [];
-
-	for (let i = 0; i < 2 ** (bracketLevels - 1) - 1; i++) {
-		matches[i] = {
+	const getTBDMatch = () => {
+		return structuredClone({
 			0: null,
 			1: null,
 			winner: undefined,
-		};
-	}
+		});
+	};
 
-	for (let i = 0; i < bracket.length; i++) {
-		matches[2 ** (bracketLevels - 1) - 1 + i] = {
-			0: bracket[i][0] - 1,
-			1: bracket[i][1] - 1,
-			winner: undefined,
-		};
+	let channels;
+
+	let bracketLevels;
+
+	let matches;
+
+	onMount(async () => {
+		const data = await fetch("./channels.json").then((res) => res.json());
+		channels = await data["channels"];
+
+		console.log(channels);
+		bracketLevels = Math.ceil(Math.log2(channels.length));
+		matches = calculateMatches();
+	});
+
+	let controller = {
+		reset: (matchID) => {
+			console.log("RESET", matchID);
+			let parent = matchID;
+
+			while (parent !== 0) {
+				let selector = parent % 2 ? 0 : 1;
+				parent = selector ? (parent - 2) / 2 : (parent - 1) / 2;
+				matches[parent]["winner"] = undefined;
+				matches[parent][selector] = null;
+			}
+		},
+	};
+
+	function calculateMatches() {
+		// https://stackoverflow.com/a/45572051
+		var participants = Array.from(
+			{ length: channels.length },
+			(v, k) => k + 1
+		);
+		let bracket = getBracket(participants);
+
+		let matches = [];
+
+		for (let i = 0; i < 2 ** (bracketLevels - 1) - 1; i++) {
+			matches[i] = getTBDMatch();
+		}
+
+		for (let i = 0; i < bracket.length; i++) {
+			matches[2 ** (bracketLevels - 1) - 1 + i] = {
+				0: bracket[i][0] - 1,
+				1: bracket[i][1] - 1,
+				winner: undefined,
+			};
+		}
+
+		return matches;
 	}
 
 	function getBracket(participants) {
@@ -115,17 +109,23 @@
 </script>
 
 <main>
-	<Bracket final level={bracketLevels - 1} {channels} bind:matches />
-
-	<!--{#each bracket as match, i}
-		<Match
-			data={{
-				channel1: channels[match[0] - 1],
-				channel2: channels[match[1] - 1],
-				winner: 1,
-			}}
+	{#if matches}
+		<Bracket
+			{controller}
+			final
+			level={bracketLevels - 1}
+			{channels}
+			bind:matches
 		/>
-	{/each}-->
+	{:else}
+		Loading...
+	{/if}
+
+	<button
+		on:click={() => {
+			console.log("click");
+		}}>button</button
+	>
 </main>
 
 <style>
