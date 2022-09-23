@@ -2,35 +2,35 @@
     "channels": [
         {
             "name": "CPG Grey",
-            "logo": "https://i3.ytimg.com/vi/TSLFu6lKO1E/maxresdefault.jpg"
+            "vidID": "TSLFu6lKO1E"
         },
         {
             "name": "Scruffy",
-            "logo": "https://i3.ytimg.com/vi/SgoWwLJxuF8/maxresdefault.jpg"
+            "vidID": "SgoWwLJxuF8"
         },
         {
             "name": "BVM",
-            "logo": "https://i3.ytimg.com/vi/67iyJ5vMv8w/maxresdefault.jpg"
+            "vidID": "67iyJ5vMv8w"
         },
         {
             "name": "Austin McConell",
-            "logo": "https://i3.ytimg.com/vi/STvX3FSX-_0/maxresdefault.jpg"
+            "vidID": "STvX3FSX-_0"
         },
         {
             "name": "Styropyro",
-            "logo": "https://i3.ytimg.com/vi/8IzYyTz4-2w/maxresdefault.jpg"
+            "vidID": "8IzYyTz4-2w"
         },
         {
             "name": "Niko Omilana",
-            "logo": "https://i3.ytimg.com/vi/CQf35nQUxNE/maxresdefault.jpg"
+            "vidID": "CQf35nQUxNE"
         },
         {
             "name": "Karl Jobst",
-            "logo": "https://i3.ytimg.com/vi/J_pE8v8a3hQ/maxresdefault.jpg"
+            "vidID": "J_pE8v8a3hQ"
         },
         {
             "name": "Magnus Mitbø",
-            "logo": "https://i3.ytimg.com/vi/Ub6aG5ZWIs0/maxresdefault.jpg"
+            "vidID": "Ub6aG5ZWIs0"
         }
     ]
 }
