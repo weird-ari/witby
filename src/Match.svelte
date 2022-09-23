@@ -60,10 +60,30 @@
         </channels>
         <bracketLine class="left" />
     {:else}
-        <verticalLine />
-        <Channel {controller} {channels} {matchID} bind:matches selector={0} />
-        <Channel {controller} {channels} {matchID} bind:matches selector={1} />
-        <verticalLine />
+        <finalMatch>
+            <finalChannel>
+                <verticalLine class="final" />
+                <Channel
+                    {controller}
+                    {channels}
+                    {matchID}
+                    bind:matches
+                    selector={0}
+                />
+                <verticalLine class="final placeholder" />
+            </finalChannel>
+            <finalChannel>
+                <verticalLine class="final placeholder" />
+                <Channel
+                    {controller}
+                    {channels}
+                    {matchID}
+                    bind:matches
+                    selector={1}
+                />
+                <verticalLine class="final" />
+            </finalChannel>
+        </finalMatch>
     {/if}
 </match>
 
@@ -73,6 +93,9 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+
+        --bracket-line-width: 0.25rem;
+        --bracket-line-color: #5a5a63ff;
     }
 
     channels,
@@ -84,25 +107,52 @@
         flex-direction: column;
     }
 
+    finalMatch {
+        display: inline-flex;
+        justify-content: space-around;
+        flex-direction: column;
+    }
+
+    finalChannel {
+        height: 100%;
+
+        display: inline-flex;
+        justify-content: space-around;
+        align-items: center;
+        flex-direction: row;
+    }
+
     bracketLine {
         display: inline-block;
-        width: 2rem;
-        height: 50%;
-        border: 0.2rem solid black;
         padding: 0;
         margin: 0;
+
+        width: 2rem;
+        height: calc(50% - var(--bracket-line-width));
+
+        border: var(--bracket-line-width) solid var(--bracket-line-color);
     }
 
     bracketLine.left {
         border-left: none;
+        border-radius: 0 0.3rem 0.3rem 0;
     }
     bracketLine.right {
         border-right: none;
+        border-radius: 0.3rem 0 0 0.3rem;
     }
 
     verticalLine {
         width: 2rem;
         height: 0rem;
-        border-top: 0.2rem solid black;
+        border-top: var(--bracket-line-width) solid var(--bracket-line-color);
+    }
+
+    verticalLine.final {
+        width: 2rem;
+    }
+    verticalLine.placeholder {
+        visibility: hidden;
+        width: 4rem;
     }
 </style>

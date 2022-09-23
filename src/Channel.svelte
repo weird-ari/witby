@@ -11,7 +11,7 @@
         if (matches[matchID][selector] === null) {
             channel = {
                 name: "TBD",
-                logo: "ytempty.png",
+                logo: "ytempty.svg",
             };
         } else {
             if (channels[matches[matchID][selector]]) {
@@ -19,7 +19,7 @@
             } else {
                 channel = {
                     name: "BYE",
-                    logo: "ytempty.png",
+                    logo: "ytempty.svg",
                 };
             }
         }
@@ -31,7 +31,8 @@
         if (matches[matchID][0] === null || matches[matchID][1] === null)
             return;
 
-        controller.reset(matchID);
+        let changesConfirmed = controller.reset(matchID);
+        if (!changesConfirmed) return;
 
         if (selector === matches[matchID]["winner"]) {
             matches[matchID]["winner"] = undefined;
@@ -60,21 +61,30 @@
 <style>
     channel {
         display: block;
-        padding: 0.2rem;
-        width: fit-content;
-        min-width: 7.5rem;
+        width: 12rem;
+
         text-align: center;
-        border: 0.1rem solid transparent;
+
+        border: 0.3rem solid transparent;
+        border-radius: 0.3rem;
+
+        background-color: #242429;
+        margin: 0.75rem 0;
     }
     channel.winner {
-        border-color: black;
+        border-color: #ff9539;
     }
 
     img {
-        width: 7.5rem;
+        width: 100%;
+        border-radius: 0.2rem;
+        pointer-events: none;
     }
 
     name {
         display: block;
+        color: white;
+        font-size: 1.5rem;
+        font-family: Anton;
     }
 </style>

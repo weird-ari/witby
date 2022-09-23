@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from "svelte";
-	import Match from "./Match.svelte";
 	import Bracket from "./Bracket.svelte";
 
 	const getTBDMatch = () => {
@@ -29,14 +28,27 @@
 	let controller = {
 		reset: (matchID) => {
 			console.log("RESET", matchID);
+			let userConfirm = false;
+
 			let parent = matchID;
 
 			while (parent !== 0) {
 				let selector = parent % 2 ? 0 : 1;
 				parent = selector ? (parent - 2) / 2 : (parent - 1) / 2;
-				matches[parent]["winner"] = undefined;
-				matches[parent][selector] = null;
+				if (!userConfirm && matches[parent][selector] !== null) {
+					userConfirm = confirm(
+						"You are about to reset the selected and all dependent matches. Proceed?"
+					);
+					if (!userConfirm) {
+						return false;
+					}
+				}
+				if (userConfirm) {
+					matches[parent][selector] = null;
+					matches[parent]["winner"] = undefined;
+				}
 			}
+			return true;
 		},
 	};
 
@@ -109,6 +121,7 @@
 </script>
 
 <main>
+	<bracketTitle> Who is the best Youtuber? </bracketTitle>
 	{#if matches}
 		<Bracket
 			{controller}
@@ -120,25 +133,34 @@
 	{:else}
 		Loading...
 	{/if}
-
-	<button
-		on:click={() => {
-			console.log("click");
-		}}>button</button
-	>
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	@font-face {
+		font-family: Anton;
+		src: url("../Anton-Regular.ttf");
+		font-weight: bold;
 	}
 
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+	:global(body) {
+		background-color: #18181b;
+		font-family: Anton;
+		user-select: none;
+	}
+
+	main {
+		margin: 0 auto;
+		width: fit-content;
+		height: fit-content;
+
+		display: flex;
+		flex-direction: column;
+	}
+
+	bracketTitle {
+		font-size: 3rem;
+		color: #ff9539;
+		text-align: center;
+		margin: 2rem;
 	}
 </style>
