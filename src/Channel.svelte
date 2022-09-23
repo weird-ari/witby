@@ -11,7 +11,6 @@
         if (matches[matchID][selector] === null) {
             channel = {
                 name: "TBD",
-                logo: "ytempty.svg",
             };
         } else {
             if (channels[matches[matchID][selector]]) {
@@ -19,7 +18,6 @@
             } else {
                 channel = {
                     name: "BYE",
-                    logo: "ytempty.svg",
                 };
             }
         }
@@ -51,9 +49,19 @@
     }
 </script>
 
-<channel class:winner on:click={setWinner}>
-    <img alt="{channel['name']}}" src={channel["logo"]} />
-    <name>
+<channel class:winner>
+    <a
+        href={`https://www.youtube.com/watch?v=${channel["vidID"]}`}
+        target="_blank"
+    >
+        <img
+            alt="{channel['name']}}"
+            src={channel["vidID"]
+                ? `https://i3.ytimg.com/vi/${channel["vidID"]}/maxresdefault.jpg`
+                : "ytempty.svg"}
+        />
+    </a>
+    <name on:click={setWinner}>
         {channel["name"]}
     </name>
 </channel>
@@ -78,7 +86,6 @@
     img {
         width: 100%;
         border-radius: 0.2rem;
-        pointer-events: none;
     }
 
     name {
