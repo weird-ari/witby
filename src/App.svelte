@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from "svelte";
+	import FocusedMatch from "./FocusedMatch.svelte";
 	import Bracket from "./Bracket.svelte";
 
 	const getTBDMatch = () => {
@@ -7,6 +8,7 @@
 			0: null,
 			1: null,
 			winner: undefined,
+			poll: [0, 0],
 		});
 	};
 
@@ -16,13 +18,17 @@
 
 	let matches;
 
+	let focusedMatch;
+
 	onMount(async () => {
 		const data = await fetch("./channels.json").then((res) => res.json());
 		channels = await data["channels"];
 
 		console.log(channels);
 		bracketLevels = Math.ceil(Math.log2(channels.length));
+		focusedMatch = 2 ** bracketLevels - 2;
 		matches = calculateMatches();
+		console.log(matches);
 	});
 
 	let controller = {
@@ -35,7 +41,7 @@
 			while (parent !== 0) {
 				let selector = parent % 2 ? 0 : 1;
 				parent = selector ? (parent - 2) / 2 : (parent - 1) / 2;
-				if (!userConfirm && matches[parent][selector] !== null) {
+				if (!userConfirm && matches[parent]["winner"] !== undefined) {
 					userConfirm = confirm(
 						"You are about to reset the selected and all dependent matches. Proceed?"
 					);
@@ -46,9 +52,13 @@
 				if (userConfirm) {
 					matches[parent][selector] = null;
 					matches[parent]["winner"] = undefined;
+					matches[parent]["poll"] = [0, 0];
 				}
 			}
 			return true;
+		},
+		focusMatch: (id) => {
+			focusedMatch = Math.min(Math.max(0, id), matches.length - 1);
 		},
 	};
 
@@ -67,10 +77,11 @@
 		}
 
 		for (let i = 0; i < bracket.length; i++) {
-			matches[2 ** (bracketLevels - 1) - 1 + i] = {
-				0: bracket[i][0] - 1,
-				1: bracket[i][1] - 1,
+			matches[2 ** (bracketLevels - 1) - 1 + (bracket.length - 1 - i)] = {
+				0: bracket[i][1] - 1,
+				1: bracket[i][0] - 1,
 				winner: undefined,
+				poll: [0, 0],
 			};
 		}
 
@@ -121,10 +132,19 @@
 </script>
 
 <main>
-	<bracketTitle> Who is the best Youtuber? </bracketTitle>
+	<bracketTitle> Who is the best Youtuber?</bracketTitle>
+	<bracketDescription
+		>Type <span class="channel1">"1"</span> or <span class="channel2">"2"</span> in chat, to vote for the current matchup.</bracketDescription
+	>
+	<FocusedMatch
+		bind:controller
+		matchID={focusedMatch}
+		{channels}
+		bind:matches
+	/>
 	{#if matches}
 		<Bracket
-			{controller}
+			bind:controller
 			final
 			level={bracketLevels - 1}
 			{channels}
@@ -141,6 +161,12 @@
 		src: url("../Anton-Regular.ttf");
 		font-weight: bold;
 	}
+	:global(.channel1) {
+        color: #f69b6c;
+    }
+    :global(.channel2) {
+        color: #70cedf;
+    }
 
 	:global(body) {
 		background-color: #18181b;
@@ -158,9 +184,17 @@
 	}
 
 	bracketTitle {
-		font-size: 3rem;
-		color: #ff9539;
+		font-size: 4rem;
+		color: #f5edda;
+		-webkit-text-stroke: 0.15rem black;
 		text-align: center;
-		margin: 2rem;
+		margin: 2rem 0 0.5rem 0;
+	}
+
+	bracketDescription {
+		font-size: 1.5rem;
+		color: white;
+		text-align: center;
+		margin: 0.25rem 0 1.5rem 0;
 	}
 </style>

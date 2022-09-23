@@ -1,5 +1,4 @@
 <script>
-    import Bracket from "./Bracket.svelte";
     import Channel from "./Channel.svelte";
 
     export let controller;
@@ -10,23 +9,23 @@
     export let leaf = false;
 </script>
 
-<match>
+<match on:click={() => controller.focusMatch(matchID)}>
     {#if orientation === "right"}
         <bracketLine class="right" />
-        <channels>
+        <channels class:leaf class="right">
             <Channel
-                {controller}
-                {channels}
-                {matchID}
-                bind:matches
-                selector={0}
-            />
-            <Channel
-                {controller}
+                bind:controller
                 {channels}
                 {matchID}
                 bind:matches
                 selector={1}
+            />
+            <Channel
+                bind:controller
+                {channels}
+                {matchID}
+                bind:matches
+                selector={0}
             />
         </channels>
         {#if !leaf}
@@ -42,20 +41,20 @@
                 <verticalLine />
             </lines>
         {/if}
-        <channels>
+        <channels class:leaf class="left">
             <Channel
-                {controller}
-                {channels}
-                {matchID}
-                bind:matches
-                selector={0}
-            />
-            <Channel
-                {controller}
+                bind:controller
                 {channels}
                 {matchID}
                 bind:matches
                 selector={1}
+            />
+            <Channel
+                bind:controller
+                {channels}
+                {matchID}
+                bind:matches
+                selector={0}
             />
         </channels>
         <bracketLine class="left" />
@@ -64,22 +63,22 @@
             <finalChannel>
                 <verticalLine class="final" />
                 <Channel
-                    {controller}
+                    bind:controller
                     {channels}
                     {matchID}
                     bind:matches
-                    selector={0}
+                    selector={1}
                 />
                 <verticalLine class="final placeholder" />
             </finalChannel>
             <finalChannel>
                 <verticalLine class="final placeholder" />
                 <Channel
-                    {controller}
+                    bind:controller
                     {channels}
                     {matchID}
                     bind:matches
-                    selector={1}
+                    selector={0}
                 />
                 <verticalLine class="final" />
             </finalChannel>
@@ -98,6 +97,10 @@
         --bracket-line-color: #5a5a63ff;
     }
 
+    match:hover {
+        background-color: #5a5a6320;
+    }
+
     channels,
     lines {
         height: 100%;
@@ -105,6 +108,14 @@
         display: inline-flex;
         justify-content: space-around;
         flex-direction: column;
+    }
+
+    channels.leaf.right{
+        margin-right: 2rem;
+    }
+
+    channels.leaf.left{
+        margin-left: 2rem;
     }
 
     finalMatch {

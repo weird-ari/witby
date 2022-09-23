@@ -1,9 +1,13 @@
 <script>
+    import App from "./App.svelte";
+
     export let controller;
     export let channels;
     export let matchID;
     export let matches;
     export let selector;
+
+    export let focused = false;
 
     let channel, winner;
 
@@ -49,22 +53,38 @@
     }
 </script>
 
-<channel class:winner>
-    <a
-        href={`https://www.youtube.com/watch?v=${channel["vidID"]}`}
-        target="_blank"
-    >
+{#if focused}
+    <channel class:winner class:focused>
+        <img
+            on:click={setWinner}
+            alt="{channel['name']}}"
+            src={channel["vidID"]
+                ? `https://i3.ytimg.com/vi/${channel["vidID"]}/maxresdefault.jpg`
+                : "ytempty.svg"}
+        />
+
+        <name on:click={setWinner}>
+            {channel["name"]}
+        </name><a
+            href={`https://www.youtube.com/watch?v=${channel["vidID"]}`}
+            target="_blank"
+        >
+            <img class="logo" alt="Youtube logo" src="../yt.svg" />
+        </a>
+    </channel>
+{:else}
+    <channel class:winner>
         <img
             alt="{channel['name']}}"
             src={channel["vidID"]
                 ? `https://i3.ytimg.com/vi/${channel["vidID"]}/maxresdefault.jpg`
                 : "ytempty.svg"}
         />
-    </a>
-    <name on:click={setWinner}>
-        {channel["name"]}
-    </name>
-</channel>
+        <name>
+            {channel["name"]}
+        </name>
+    </channel>
+{/if}
 
 <style>
     channel {
@@ -89,9 +109,26 @@
     }
 
     name {
-        display: block;
+        display: inline;
         color: white;
         font-size: 1.5rem;
+        vertical-align: middle;
         font-family: Anton;
+    }
+
+    channel.focused {
+        width: 18rem;
+    }
+
+    .focused name {
+        font-size: 2rem;
+    }
+
+    channel .logo {
+        display: inline;
+        height: 2rem;
+        width: auto;
+        vertical-align: middle;
+        margin: 0 0 0 0.5rem;
     }
 </style>

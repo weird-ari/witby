@@ -16,24 +16,24 @@
     {#if final}
         <leftbracket>
             <Bracket
-                {controller}
+                bind:controller
                 orientation="left"
                 level={level - 1}
                 {channels}
-                matchID={2 * matchID + 1}
+                matchID={2 * matchID + 2}
                 bind:matches
             />
         </leftbracket>
         <final>
-            <Match {controller} {channels} {matchID} bind:matches />
+            <Match bind:controller {channels} {matchID} bind:matches />
         </final>
         <rightbracket>
             <Bracket
-                {controller}
+                bind:controller
                 orientation="right"
                 level={level - 1}
                 {channels}
-                matchID={2 * matchID + 2}
+                matchID={2 * matchID + 1}
                 bind:matches
             />
         </rightbracket>
@@ -41,7 +41,7 @@
         {#if orientation === "right"}
             <current>
                 <Match
-                    {controller}
+                    bind:controller
                     {orientation}
                     {channels}
                     {matchID}
@@ -50,44 +50,44 @@
             </current>
             <previous>
                 <Bracket
-                    {controller}
-                    orientation="right"
-                    level={level - 1}
-                    {channels}
-                    matchID={2 * matchID + 1}
-                    bind:matches
-                />
-
-                <Bracket
-                    {controller}
+                    bind:controller
                     orientation="right"
                     level={level - 1}
                     {channels}
                     matchID={2 * matchID + 2}
+                    bind:matches
+                />
+
+                <Bracket
+                    bind:controller
+                    orientation="right"
+                    level={level - 1}
+                    {channels}
+                    matchID={2 * matchID + 1}
                     bind:matches
                 />
             </previous>
         {:else}
             <previous>
                 <Bracket
-                    {controller}
-                    level={level - 1}
-                    {channels}
-                    matchID={2 * matchID + 1}
-                    bind:matches
-                />
-
-                <Bracket
-                    {controller}
+                    bind:controller
                     level={level - 1}
                     {channels}
                     matchID={2 * matchID + 2}
                     bind:matches
                 />
+
+                <Bracket
+                    bind:controller
+                    level={level - 1}
+                    {channels}
+                    matchID={2 * matchID + 1}
+                    bind:matches
+                />
             </previous>
             <current>
                 <Match
-                    {controller}
+                    bind:controller
                     {orientation}
                     {channels}
                     {matchID}
@@ -99,7 +99,7 @@
         <current>
             <Match
                 leaf
-                {controller}
+                bind:controller
                 {orientation}
                 {channels}
                 {matchID}
