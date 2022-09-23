@@ -69,7 +69,7 @@
             href={`https://www.youtube.com/watch?v=${channel["vidID"]}`}
             target="_blank"
         >
-            <img class="logo" alt="Youtube logo" src="../yt.svg" />
+            <img class="logo" alt="Youtube logo" src="yt.svg" />
         </a>
     </channel>
 {:else}
