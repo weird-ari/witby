@@ -2,36 +2,38 @@
 	import { onMount } from "svelte";
 	import FocusedMatch from "./FocusedMatch.svelte";
 	import Bracket from "./Bracket.svelte";
+	import DataInput from "./DataInput.svelte";
 
 	const getTBDMatch = () => {
 		return structuredClone({
 			0: null,
 			1: null,
 			winner: undefined,
-			poll: [0, 0],
+			poll: {
+				result: [0, 0],
+				participants: [],
+			},
 		});
 	};
 
-	let channels;
+	let channels = null;
 
 	let bracketLevels;
 
-	let matches;
+	let matches = null;
 
 	let focusedMatch;
 
 	onMount(async () => {
 		const data = await fetch("./channels.json").then((res) => res.json());
 		channels = await data["channels"];
-
-		console.log(channels);
-		bracketLevels = Math.ceil(Math.log2(channels.length));
-		focusedMatch = 2 ** bracketLevels - 2;
-		matches = calculateMatches();
-		console.log(matches);
+		controller.setUpBracket(true);
 	});
 
 	let controller = {
+		settings: {
+			twitchChannel: { value: "stanz", name: "Twitch Channel" },
+		},
 		reset: (matchID) => {
 			console.log("RESET", matchID);
 			let userConfirm = false;
@@ -52,13 +54,29 @@
 				if (userConfirm) {
 					matches[parent][selector] = null;
 					matches[parent]["winner"] = undefined;
-					matches[parent]["poll"] = [0, 0];
+					matches[parent]["poll"] = {
+						result: [0, 0],
+						participants: [],
+					};
 				}
 			}
 			return true;
 		},
 		focusMatch: (id) => {
 			focusedMatch = Math.min(Math.max(0, id), matches.length - 1);
+		},
+		setUpBracket: (skipConfirm) => {
+			let confirmed =
+				skipConfirm ||
+				confirm(
+					"Due to changed data a new bracket has to be calculated, which will reset the current bracket. Proceed?"
+				);
+			if (!confirmed) return false;
+
+			bracketLevels = Math.ceil(Math.log2(channels.length));
+			focusedMatch = 2 ** bracketLevels - 2;
+			matches = calculateMatches();
+			return true;
 		},
 	};
 
@@ -81,7 +99,10 @@
 				0: bracket[i][1] - 1,
 				1: bracket[i][0] - 1,
 				winner: undefined,
-				poll: [0, 0],
+				poll: {
+					result: [0, 0],
+					participants: [],
+				},
 			};
 		}
 
@@ -134,7 +155,8 @@
 <main>
 	<bracketTitle> Who is the best Youtuber?</bracketTitle>
 	<bracketDescription
-		>Type <span class="channel1">"1"</span> or <span class="channel2">"2"</span> in chat, to vote for the current matchup.</bracketDescription
+		>Type <span class="channel1">"1"</span> or
+		<span class="channel2">"2"</span> in chat, to vote for the current matchup.</bracketDescription
 	>
 	<FocusedMatch
 		bind:controller
@@ -153,6 +175,7 @@
 	{:else}
 		Loading...
 	{/if}
+	<DataInput bind:channels bind:controller />
 </main>
 
 <style>
@@ -162,16 +185,46 @@
 		font-weight: bold;
 	}
 	:global(.channel1) {
-        color: #f69b6c;
-    }
-    :global(.channel2) {
-        color: #70cedf;
-    }
+		color: #f69b6c;
+	}
+	:global(.channel2) {
+		color: #70cedf;
+	}
 
 	:global(body) {
 		background-color: #18181b;
 		font-family: Anton;
 		user-select: none;
+	}
+
+	:global(::-webkit-scrollbar) {
+		width: 0.5rem;
+		height: 0.5rem;
+	}
+
+	:global(::-webkit-scrollbar-track) {
+		background: #18181b;
+	}
+
+	:global(::-webkit-scrollbar-thumb) {
+		background: #5a5a63ff;
+		border-radius: 0.3rem;
+	}
+
+	:global(::-webkit-scrollbar-thumb:hover) {
+		background: #5a5a63ff;
+	}
+
+	:global(::-webkit-scrollbar-corner) {
+		background: transparent;
+		width: 0.5rem;
+		height: 0.5rem;
+	}
+
+	:global(::-webkit-resizer) {
+		background: #5a5a63ff;
+		width: 0.5rem;
+		height: 0.5rem;
 	}
 
 	main {
@@ -188,7 +241,7 @@
 		color: #f5edda;
 		-webkit-text-stroke: 0.15rem black;
 		text-align: center;
-		margin: 2rem 0 0.5rem 0;
+		margin: 3rem 0 0.5rem 0;
 	}
 
 	bracketDescription {

@@ -6,7 +6,7 @@
     export let level = 0;
     export let matchID = 0;
 
-    export let channels;
+    export let channels = null;
     export let matches;
     export let final = false;
     export let orientation = "left";
@@ -25,7 +25,7 @@
             />
         </leftbracket>
         <final>
-            <Match bind:controller {channels} {matchID} bind:matches />
+            <Match bind:controller orientation="final" {matchID} bind:matches />
         </final>
         <rightbracket>
             <Bracket
@@ -111,9 +111,9 @@
 
 <style>
     bracket {
-        width: fit-content;
+        width: 100%;
         height: fit-content;
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
     }
 </style>

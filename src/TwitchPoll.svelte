@@ -1,26 +1,52 @@
 <script>
     export let controller;
     export let matchID;
-    export let channels;
     export let matches;
 
+    let ratio;
+    $: ratio =
+        (100 * matches[matchID]["poll"]["result"][0]) /
+        (matches[matchID]["poll"]["result"][0] +
+            matches[matchID]["poll"]["result"][1]);
+
     let twitch;
-    twitch = new window.tmi.Client({
-        channels: ["stanz"],
-    });
-    twitch.connect().then(() => console.log("CONNECTED"));
+    let lastChannel;
 
-    let currentHandler;
+    $: connectTwitch(controller["settings"]["twitchChannel"]["value"]);
 
-    currentHandler = async (channel, tags, message, self) => {
-        if (message === "1") {
-            matches[matchID]["poll"][0]++;
-        } else if (message === "2") {
-            matches[matchID]["poll"][1]++;
+    function connectTwitch(twitchChannel) {
+        if (lastChannel === twitchChannel) return;
+        if (twitch) {
+            console.log(twitch);
+            twitch.disconnect();
         }
-        console.log(message);
-    };
-    twitch.on("message", currentHandler);
+
+        console.log(twitchChannel);
+
+        twitch = new window.tmi.Client({
+            channels: [twitchChannel.toLowerCase()],
+        });
+        twitch.connect().then(() => console.log("CONNECTED"));
+
+        let handler = async (channel, tags, message, self) => {
+            if (
+                matches[matchID]["poll"]["participants"].includes(
+                    tags["user-id"]
+                )
+            )
+                return;
+
+            if (message === "1") {
+                matches[matchID]["poll"]["result"][0]++;
+            } else if (message === "2") {
+                matches[matchID]["poll"]["result"][1]++;
+            }
+            matches[matchID]["poll"]["participants"].push(tags["user-id"]);
+            console.log(message, matches[matchID]["poll"]["participants"]);
+        };
+        twitch.on("message", handler);
+        lastChannel = twitchChannel;
+    }
 </script>
 
 <pollFrame>
@@ -30,15 +56,12 @@
         <voteCommand class="channel2">2</voteCommand>
     </voteCommands>
     <results>
-        <votes class="channel1">{matches[matchID]["poll"][0]}</votes>
+        <votes class="channel1">{matches[matchID]["poll"]["result"][0]}</votes>
         <span>VOTES</span>
-        <votes class="channel2">{matches[matchID]["poll"][1]}</votes>
+        <votes class="channel2">{matches[matchID]["poll"]["result"][1]}</votes>
     </results>
     <pollBar>
-        <resultBar
-            style="width:{(100 * matches[matchID]['poll'][0]) /
-                (matches[matchID]['poll'][0] + matches[matchID]['poll'][1])}%"
-        />
+        <resultBar style="width:{Number.isNaN(ratio) ? 50 : ratio}%" />
     </pollBar>
 </pollFrame>
 

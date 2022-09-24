@@ -2,7 +2,7 @@
     import Channel from "./Channel.svelte";
 
     export let controller;
-    export let channels;
+    export let channels = null;
     export let matches;
     export let matchID;
     export let orientation;

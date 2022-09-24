@@ -11,9 +11,7 @@
 
 <match>
     {#if matches}
-        <nav on:click={() => controller.focusMatch(matchID + 1)}>
-            ←
-        </nav>
+        <nav on:click={() => controller.focusMatch(matchID + 1)}>←</nav>
         <Channel
             focused
             {controller}
@@ -22,7 +20,7 @@
             bind:matches
             selector={1}
         />
-        <TwitchPoll bind:controller {matchID} {channels} bind:matches/>
+        <TwitchPoll bind:controller {matchID} bind:matches />
         <Channel
             focused
             {controller}
