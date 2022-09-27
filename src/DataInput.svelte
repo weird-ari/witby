@@ -50,6 +50,7 @@
 </script>
 
 <toggleButton
+    class="interactive"
     on:click={(e) => {
         expanded = !expanded;
         if (expanded) {
@@ -140,7 +141,8 @@
 
 <style>
     toggleButton {
-        color: #5a5a63ff;
+        width: fit-content;
+        color: var(--color-grey-light);
         font-size: 1.5rem;
         margin: 5rem 0.5rem 2rem 0;
         text-decoration: underline;
@@ -173,10 +175,12 @@
         border-radius: 0.3rem;
 
         font-size: 1.3rem;
-        background-color: #242429;
+        background-color: var(--color-grey-medium);
         color: white;
         text-align: center;
         vertical-align: middle;
+
+        cursor: pointer;
     }
 
     input,
@@ -187,7 +191,7 @@
         vertical-align: middle;
 
         margin: 0.2rem;
-        background-color: #242429;
+        background-color: var(--color-grey-medium);
 
         border: 0;
         border-radius: 0.4rem;
@@ -196,7 +200,7 @@
 
     input:focus-visible,
     textarea:focus-visible {
-        outline: 0.1rem solid #ff9539;
+        outline: 0.1rem solid var(--color-highlight);
     }
 
     channel {

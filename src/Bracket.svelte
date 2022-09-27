@@ -12,7 +12,7 @@
     export let orientation = "left";
 </script>
 
-<bracket>
+<bracket class="interactive">
     {#if final}
         <leftbracket>
             <Bracket
@@ -25,7 +25,13 @@
             />
         </leftbracket>
         <final>
-            <Match bind:controller orientation="final" {matchID} bind:matches />
+            <Match
+                bind:controller
+                orientation="final"
+                {channels}
+                {matchID}
+                bind:matches
+            />
         </final>
         <rightbracket>
             <Bracket

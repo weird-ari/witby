@@ -11,7 +11,12 @@
 
 <match>
     {#if matches}
-        <nav on:click={() => controller.focusMatch(matchID + 1)}>←</nav>
+        <nav
+            class="interactive"
+            on:click={() => controller.focusMatch(matchID + 1)}
+        >
+            ←
+        </nav>
         <Channel
             focused
             {controller}
@@ -29,7 +34,12 @@
             bind:matches
             selector={0}
         />
-        <nav on:click={() => controller.focusMatch(matchID - 1)}>→</nav>
+        <nav
+            class="interactive"
+            on:click={() => controller.focusMatch(matchID - 1)}
+        >
+            →
+        </nav>
     {/if}
 </match>
 
@@ -51,6 +61,10 @@
         border-radius: 0.3rem;
         margin: 2rem;
         font-size: 1.5rem;
-        background-color: #242429;
+        background-color: var(--color-grey-medium);
+    }
+
+    nav:hover {
+        background-color: var(--color-grey-light);
     }
 </style>

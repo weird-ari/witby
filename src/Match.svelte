@@ -94,11 +94,13 @@
         align-items: center;
 
         --bracket-line-width: 0.25rem;
-        --bracket-line-color: #5a5a63ff;
+        --bracket-line-color: var(--color-grey-medium);
+        --channel-color: var(--color-grey-medium);
     }
 
     match:hover {
-        background-color: #5a5a6320;
+        --bracket-line-color: var(--color-grey-light);
+        --channel-color: var(--color-grey-light);
     }
 
     channels,
@@ -110,11 +112,11 @@
         flex-direction: column;
     }
 
-    channels.leaf.right{
+    channels.leaf.right {
         margin-right: 2rem;
     }
 
-    channels.leaf.left{
+    channels.leaf.left {
         margin-left: 2rem;
     }
 

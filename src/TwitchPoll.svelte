@@ -99,7 +99,7 @@
         display: block;
         width: 100%;
         height: 1rem;
-        background-color: #70cedf;
+        background-color: var(--color-blue);
         border-radius: 0.3rem;
     }
 
@@ -107,7 +107,7 @@
         display: block;
         height: 100%;
         width: 50%;
-        background-color: #f69b6c;
+        background-color: var(--color-orange);
         border-radius: 0.3rem 0 0 0.3rem;
     }
 </style>

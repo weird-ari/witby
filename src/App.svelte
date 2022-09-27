@@ -175,7 +175,7 @@
 	{:else}
 		Loading...
 	{/if}
-	<DataInput bind:channels bind:controller />
+	<!--DataInput bind:channels bind:controller /-->
 </main>
 
 <style>
@@ -184,17 +184,29 @@
 		src: url("../Anton-Regular.ttf");
 		font-weight: bold;
 	}
-	:global(.channel1) {
-		color: #f69b6c;
-	}
-	:global(.channel2) {
-		color: #70cedf;
-	}
-
 	:global(body) {
 		background-color: #18181b;
 		font-family: Anton;
 		user-select: none;
+
+		--color-highlight: #ff9539;
+		--color-grey-dark: #18181b;
+		--color-grey-medium: #28282e;
+		--color-grey-medium-trans: #28282e20;
+		--color-grey-light: rgb(76, 76, 83);
+		--color-orange: #f69b6c;
+		--color-blue: #70cedf;
+		--color-cream: #f5edda;
+	}
+	:global(.channel1) {
+		color: var(--color-orange);
+	}
+	:global(.channel2) {
+		color: var(--color-blue);
+	}
+
+	:global(.interactive) {
+		cursor: pointer;
 	}
 
 	:global(::-webkit-scrollbar) {
@@ -203,16 +215,16 @@
 	}
 
 	:global(::-webkit-scrollbar-track) {
-		background: #18181b;
+		background: var(--color-grey-dark);
 	}
 
 	:global(::-webkit-scrollbar-thumb) {
-		background: #5a5a63ff;
+		background: var(--color-grey-light);
 		border-radius: 0.3rem;
 	}
 
 	:global(::-webkit-scrollbar-thumb:hover) {
-		background: #5a5a63ff;
+		background: var(--color-grey-light);
 	}
 
 	:global(::-webkit-scrollbar-corner) {
@@ -222,7 +234,7 @@
 	}
 
 	:global(::-webkit-resizer) {
-		background: #5a5a63ff;
+		background: var(--color-grey-light);
 		width: 0.5rem;
 		height: 0.5rem;
 	}
@@ -238,7 +250,7 @@
 
 	bracketTitle {
 		font-size: 4rem;
-		color: #f5edda;
+		color: var(--color-cream);
 		-webkit-text-stroke: 0.15rem black;
 		text-align: center;
 		margin: 3rem 0 0.5rem 0;

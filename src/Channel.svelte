@@ -1,15 +1,13 @@
 <script>
-    import App from "./App.svelte";
-
     export let controller;
-    export let channels;
+    export let channels = [];
     export let matchID;
     export let matches;
     export let selector;
 
     export let focused = false;
 
-    let channel, winner;
+    let channel, winner, eliminated;
 
     $: {
         if (matches[matchID][selector] === null) {
@@ -17,6 +15,7 @@
                 name: "TBD",
             };
         } else {
+            console.log(channels);
             if (channels[matches[matchID][selector]]) {
                 channel = channels[matches[matchID][selector]];
             } else {
@@ -28,6 +27,7 @@
     }
 
     $: winner = matches[matchID]["winner"] === selector;
+    $: eliminated = !winner && matches[matchID]["winner"] !== undefined;
 
     function setWinner() {
         if (matches[matchID][0] === null || matches[matchID][1] === null)
@@ -56,6 +56,8 @@
 {#if focused}
     <channel class:winner class:focused>
         <img
+            class="interactive"
+            class:eliminated
             on:click={setWinner}
             alt="{channel['name']}}"
             src={channel["vidID"]
@@ -63,7 +65,7 @@
                 : "ytempty.svg"}
         />
 
-        <name on:click={setWinner}>
+        <name class="interactive" on:click={setWinner}>
             {channel["name"]}
         </name><a
             href={`https://www.youtube.com/watch?v=${channel["vidID"]}`}
@@ -75,6 +77,7 @@
 {:else}
     <channel class:winner>
         <img
+            class:eliminated
             alt="{channel['name']}}"
             src={channel["vidID"]
                 ? `https://i3.ytimg.com/vi/${channel["vidID"]}/maxresdefault.jpg`
@@ -93,19 +96,28 @@
 
         text-align: center;
 
-        border: 0.3rem solid transparent;
+        border: 0.2rem solid transparent;
         border-radius: 0.3rem;
 
-        background-color: #242429;
+        background-color: var(--channel-color, var(--color-grey-medium));
         margin: 0.75rem 0;
     }
+
+    channel:hover {
+        --channel-color: var(--color-grey-light);
+    }
+
     channel.winner {
-        border-color: #ff9539;
+        border-color: var(--color-highlight);
     }
 
     img {
         width: 100%;
         border-radius: 0.2rem;
+    }
+
+    img.eliminated {
+        filter: grayscale(100%);
     }
 
     name {
