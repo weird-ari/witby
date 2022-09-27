@@ -22,8 +22,8 @@
    inkscape:deskcolor="#d1d1d1"
    showgrid="false"
    inkscape:zoom="4.0117188"
-   inkscape:cx="125.1334"
-   inkscape:cy="127.87537"
+   inkscape:cx="122.6407"
+   inkscape:cy="128.12463"
    inkscape:window-width="2560"
    inkscape:window-height="1377"
    inkscape:window-x="1072"
@@ -39,14 +39,9 @@
    transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"
    id="g8">
 	<path
-   d="M 88.119 23.338 c -1.035 -3.872 -4.085 -6.922 -7.957 -7.957 C 73.144 13.5 45 13.5 45 13.5 s -28.144 0 -35.162 1.881 c -3.872 1.035 -6.922 4.085 -7.957 7.957 C 0 30.356 0 45 0 45 s 0 14.644 1.881 21.662 c 1.035 3.872 4.085 6.922 7.957 7.957 C 16.856 76.5 45 76.5 45 76.5 s 28.144 0 35.162 -1.881 c 3.872 -1.035 6.922 -4.085 7.957 -7.957 C 90 59.644 90 45 90 45 S 90 30.356 88.119 23.338 z"
-   style="stroke:none;stroke-width:1;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;fill:#5a5a63;fill-rule:evenodd;opacity:1;fill-opacity:1"
-   transform=" matrix(1 0 0 1 0 0) "
-   stroke-linecap="round"
-   id="path4" /><polygon
-   points="36,58.5 59.38,45 36,31.5 "
-   style="stroke:none;stroke-width:1;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;fill:#242429;fill-rule:nonzero;opacity:1;fill-opacity:1"
-   id="polygon6" />
+   id="path4"
+   style="stroke:none;stroke-width:1;stroke-dasharray:none;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;fill:#8e8e97;fill-rule:evenodd;opacity:1;fill-opacity:1"
+   d="M 45.000295 13.500072 C 45.000295 13.500072 16.855782 13.499913 9.8377893 15.380911 C 5.9657931 16.41591 2.9157153 19.465988 1.8807163 23.337984 C -0.00028180462 30.355977 -0.00012220875 45.000295 -0.00012220875 45.000295 C -0.00012220875 45.000295 -0.00028180462 59.643918 1.8807163 66.661911 C 2.9157153 70.533907 5.9657931 73.583985 9.8377893 74.618984 C 16.855782 76.499982 45.000295 76.499822 45.000295 76.499822 C 45.000295 76.499822 73.144112 76.499982 80.162105 74.618984 C 84.034101 73.583985 87.084179 70.533907 88.119178 66.661911 C 90.000176 59.643918 90.000017 45.000295 90.000017 45.000295 C 90.000017 45.000295 90.000176 30.355977 88.119178 23.337984 C 87.084179 19.465988 84.034101 16.41591 80.162105 15.380911 C 73.144112 13.499913 45.000295 13.500072 45.000295 13.500072 z M 35.999933 31.5001 L 59.379743 45.000295 L 35.999933 58.499794 L 35.999933 31.5001 z " />
 	
 </g>
 </svg>
