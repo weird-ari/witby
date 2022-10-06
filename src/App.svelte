@@ -22,12 +22,49 @@
 
 	let matches = null;
 
+	$: {
+		if (matches) {
+			localStorage.setItem("WITBYmatches", JSON.stringify(matches));
+			console.log("SAVED MATCHES");
+		}
+	}
+
 	let focusedMatch;
 
 	onMount(async () => {
-		const data = await fetch("./channels.json").then((res) => res.json());
-		channels = await data["channels"];
-		controller.setUpBracket(true);
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		console.log();
+
+		if (urlParams.has("channels") && urlParams.has("ids")) {
+			let urlChannels = [];
+			let urlChannelNames = urlParams.get("channels").split(",");
+			let urlChannelIds = urlParams.get("ids").split(",");
+			for (let i = 0; i < urlChannelNames.length; i++) {
+				urlChannels.push({
+					name: urlChannelNames[i],
+					vidID: urlChannelIds[i],
+				});
+			}
+			channels = urlChannels;
+		} else {
+			const data = await fetch("./channels.json").then((res) =>
+				res.json()
+			);
+			channels = await data["channels"];
+		}
+		console.log(channels);
+
+		let storageMatches = JSON.parse(localStorage.getItem("WITBYmatches"));
+
+		if (storageMatches && storageMatches.length === channels.length - 1) {
+			matches = storageMatches;
+			bracketLevels = Math.ceil(Math.log2(channels.length));
+			focusedMatch = 2 ** bracketLevels - 2;
+			console.log(matches);
+		} else {
+			controller.setUpBracket(true);
+		}
 	});
 
 	let controller = {
@@ -158,6 +195,15 @@
 		>Type <span class="channel1">"1"</span> or
 		<span class="channel2">"2"</span> in chat, to vote for the current matchup.</bracketDescription
 	>
+	<buttonSection>
+		<resetButton
+			class="interactive"
+			on:click={() => controller.setUpBracket()}
+		>
+			↺
+		</resetButton>
+	</buttonSection>
+
 	<FocusedMatch
 		bind:controller
 		matchID={focusedMatch}
@@ -175,7 +221,7 @@
 	{:else}
 		Loading...
 	{/if}
-	<!--DataInput bind:channels bind:controller /-->
+	<DataInput bind:channels bind:controller />
 </main>
 
 <style>
@@ -253,13 +299,30 @@
 		color: var(--color-cream);
 		-webkit-text-stroke: 0.15rem black;
 		text-align: center;
-		margin: 3rem 0 0.5rem 0;
+		margin: 2rem 0 0.5rem 0;
 	}
 
 	bracketDescription {
 		font-size: 1.5rem;
 		color: white;
 		text-align: center;
-		margin: 0.25rem 0 1.5rem 0;
+		margin: 0.25rem 0 1rem 0;
+	}
+
+	buttonSection {
+		text-align: right;
+		margin: 0 2rem 0 0;
+	}
+
+	resetButton {
+		display: inline-block;
+		width: 3rem;
+		height: 3rem;
+		font-size: 1.9rem;
+		text-align: center;
+		vertical-align: middle;
+		color: white;
+		background-color: var(--color-grey-medium);
+		border-radius: 0.3rem;
 	}
 </style>

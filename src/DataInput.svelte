@@ -9,6 +9,33 @@
     let textarea;
     let settingsTextarea;
 
+    let templateURL;
+
+    $: {
+        templateURL = getTemplateURL(channels);
+    }
+
+    function getTemplateURL(cs) {
+        console.log("calc url");
+        if (!cs) return;
+        let url = location.protocol + "//" + location.host + location.pathname;
+        url += "?channels=";
+        for (let i = 0; i < cs.length; i++) {
+            url += encodeURIComponent(cs[i]["name"]);
+            if (i < cs.length - 1) {
+                url += ",";
+            }
+        }
+        url += "&ids=";
+        for (let i = 0; i < cs.length; i++) {
+            url += encodeURIComponent(cs[i]["vidID"]);
+            if (i < cs.length - 1) {
+                url += ",";
+            }
+        }
+        return url;
+    }
+
     $: jsonString = JSON.stringify(channels, null, 5);
     $: settingsJsonString = JSON.stringify(controller["settings"], null, 5);
 
@@ -134,6 +161,12 @@
                         importJSON(settingsTextarea);
                     }}
                 />
+            </jsonBlock>
+        </section>
+        <dataLabel>Template URL</dataLabel>
+        <section>
+            <jsonBlock>
+                <textarea class="json" value={templateURL} />
             </jsonBlock>
         </section>
     {/if}

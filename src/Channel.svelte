@@ -15,7 +15,6 @@
                 name: "TBD",
             };
         } else {
-            console.log(channels);
             if (channels[matches[matchID][selector]]) {
                 channel = channels[matches[matchID][selector]];
             } else {
