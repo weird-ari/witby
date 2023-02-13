@@ -1,7 +1,14 @@
-html, body {
+html,
+body {
 	position: relative;
 	width: 100%;
 	height: 100%;
+}
+
+@font-face {
+	font-family: Anton;
+	src: url("./Anton-Regular.ttf");
+	font-weight: bold;
 }
 
 body {
@@ -10,10 +17,24 @@ body {
 	padding: 8px;
 	box-sizing: border-box;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+
+	background-color: #18181b;
+	font-family: Anton;
+	user-select: none;
+
+	--color-highlight: #ff9539;
+	--color-grey-dark: #18181b;
+	--color-grey-medium: #28282e;
+	--color-grey-medium-trans: #28282e20;
+	--color-grey-light: rgb(76, 76, 83);
+	--color-orange: #f69b6c;
+	--color-blue: #70cedf;
+	--color-cream: #f5edda;
 }
 
 a {
-	color: rgb(0,100,200);
+	color: rgb(0, 100, 200);
 	text-decoration: none;
 }
 
@@ -22,14 +43,17 @@ a:hover {
 }
 
 a:visited {
-	color: rgb(0,80,160);
+	color: rgb(0, 80, 160);
 }
 
 label {
 	display: block;
 }
 
-input, button, select, textarea {
+input,
+button,
+select,
+textarea {
 	font-family: inherit;
 	font-size: inherit;
 	-webkit-padding: 0.4em 0;
@@ -60,4 +84,47 @@ button:not(:disabled):active {
 
 button:focus {
 	border-color: #666;
+}
+
+
+.channel1 {
+	color: var(--color-orange);
+}
+
+.channel2 {
+	color: var(--color-blue);
+}
+
+.interactive {
+	cursor: pointer;
+}
+
+::-webkit-scrollbar {
+	width: 0.5rem;
+	height: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--color-grey-dark);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-grey-light);
+	border-radius: 0.3rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--color-grey-light);
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+	width: 0.5rem;
+	height: 0.5rem;
+}
+
+::-webkit-resizer {
+	background: var(--color-grey-light);
+	width: 0.5rem;
+	height: 0.5rem;
 }
