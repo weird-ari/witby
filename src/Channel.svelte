@@ -55,12 +55,12 @@
 {#if focused}
     <channel class:winner class:focused>
         <img
-            class="interactive"
+            class="thumbnail interactive"
             class:eliminated
             on:click={setWinner}
-            alt="{channel['name']}}"
+            alt={channel["name"]}
             src={channel["vidID"]
-                ? `https://i3.ytimg.com/vi/${channel["vidID"]}/maxresdefault.jpg`
+                ? `https://i3.ytimg.com/vi/${channel["vidID"]}/hqdefault.jpg`
                 : "ytempty.svg"}
         />
 
@@ -76,10 +76,11 @@
 {:else}
     <channel class:winner>
         <img
+            class="thumbnail"
             class:eliminated
-            alt="{channel['name']}}"
+            alt={channel["name"]}
             src={channel["vidID"]
-                ? `https://i3.ytimg.com/vi/${channel["vidID"]}/maxresdefault.jpg`
+                ? `https://i3.ytimg.com/vi/${channel["vidID"]}/hqdefault.jpg`
                 : "ytempty.svg"}
         />
         <name>
@@ -110,8 +111,10 @@
         border-color: var(--color-highlight);
     }
 
-    img {
+    img.thumbnail {
         width: 100%;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
         border-radius: 0.2rem;
     }
 
