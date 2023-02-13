@@ -225,66 +225,6 @@
 </main>
 
 <style>
-	@font-face {
-		font-family: Anton;
-		src: url("../Anton-Regular.ttf");
-		font-weight: bold;
-	}
-	:global(body) {
-		background-color: #18181b;
-		font-family: Anton;
-		user-select: none;
-
-		--color-highlight: #ff9539;
-		--color-grey-dark: #18181b;
-		--color-grey-medium: #28282e;
-		--color-grey-medium-trans: #28282e20;
-		--color-grey-light: rgb(76, 76, 83);
-		--color-orange: #f69b6c;
-		--color-blue: #70cedf;
-		--color-cream: #f5edda;
-	}
-	:global(.channel1) {
-		color: var(--color-orange);
-	}
-	:global(.channel2) {
-		color: var(--color-blue);
-	}
-
-	:global(.interactive) {
-		cursor: pointer;
-	}
-
-	:global(::-webkit-scrollbar) {
-		width: 0.5rem;
-		height: 0.5rem;
-	}
-
-	:global(::-webkit-scrollbar-track) {
-		background: var(--color-grey-dark);
-	}
-
-	:global(::-webkit-scrollbar-thumb) {
-		background: var(--color-grey-light);
-		border-radius: 0.3rem;
-	}
-
-	:global(::-webkit-scrollbar-thumb:hover) {
-		background: var(--color-grey-light);
-	}
-
-	:global(::-webkit-scrollbar-corner) {
-		background: transparent;
-		width: 0.5rem;
-		height: 0.5rem;
-	}
-
-	:global(::-webkit-resizer) {
-		background: var(--color-grey-light);
-		width: 0.5rem;
-		height: 0.5rem;
-	}
-
 	main {
 		margin: 0 auto;
 		width: fit-content;
